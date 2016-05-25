@@ -5,7 +5,7 @@ from MainProcess import *
 import sys
 
 
-def Start_capture():
+def start_capture():
     cardinal_number = int(sys.argv[1])
     config = open("frame.json", "r")
     data = json.load(config)
@@ -14,7 +14,6 @@ def Start_capture():
     y1 = data["y1"]
     y2 = data["y2"]
     config.close()
-    print x1, x2, y1, y2
     cap = cv2.VideoCapture(0)
     ret, frame = cap.read()
     if not ret:
@@ -47,8 +46,8 @@ def Start_capture():
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-        # When everything done, release the capture
+        # When everything done, release the camera
         cap.release()
         cv2.destroyAllWindows()
 
-Start_capture()
+start_capture()

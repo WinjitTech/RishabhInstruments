@@ -46,8 +46,7 @@ def initprocess(frame):
     while count < len_angle:
         tolerance.append(round((angle_list[count]*60)/54, ndigits=4))
         count += 1
-
-        needle_len = math.sqrt((needle_x - top_x) ** 2 + (needle_y - base_y) ** 2)
+    needle_len = math.sqrt((needle_x - top_x) ** 2 + (needle_y - base_y) ** 2)
     if 100 < needle_len < 500:
         count = 0
         while count < len_angle:
