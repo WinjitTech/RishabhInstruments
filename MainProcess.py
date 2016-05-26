@@ -6,7 +6,6 @@ import GetCardinalContours
 import GetBaseCardinals
 
 
-
 def initprocess(frame):
     # TODO: get needle point and get base contours coordinates
     base_x, base_y = GetBaseCardinals.zero_needle_position(3)
@@ -53,5 +52,4 @@ def initprocess(frame):
             cv2.line(frame, (int(needle_x), int(needle_y)), (int(top_x), int(base_y)), (0, 255, 0), 1)
             cv2.circle(frame, (needle_x, needle_y), 1, 255, -1)
             count += 1
-    cv2.imwrite("MeterImages/result.jpg", frame)
     return frame, angle_list, tolerance
