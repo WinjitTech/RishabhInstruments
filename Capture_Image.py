@@ -43,6 +43,7 @@ def start_capture():
                     cv2.imwrite(img_path + "\\MeterImages\\Needle.jpg", meter)
                     try:
                         meter, angles, deflection = initprocess(img_path, meter)
+                        # print angles, deflection
                         cv2.imwrite(img_path + '\\MeterImages\\' + img_name, meter)
                         print str(angles[cardinal_number - 1]) + "," + str(deflection[cardinal_number - 1])
                         break
@@ -50,7 +51,6 @@ def start_capture():
                         print "error:", str(e)
                         cap.release()
                         cv2.destroyAllWindows()
-                        sys.exit()
                         break
                 else:
                     print "Check if Camera is Available"

@@ -37,13 +37,16 @@ def find_top_cardinal(contours):
             if 300 < cv2.contourArea(cnt) < 700:
                 if i >= len(contours) - 1:
                     # print cv2.contourArea(cnt)
-                    # (x, y), radius = cv2.minEnclosingCircle(cnt)
+                    (x, y), radius = cv2.minEnclosingCircle(cnt)
                     c = cnt.ravel()
                     cx = c[::2]
                     cy = c[1::2]
-                    top_x = round(sum(cx) / len(cx))
-                    top_y = round(sum(cy) / len(cy))
-                    return top_x, top_y
+                    top_x = int(round(sum(cx) / len(cx)))
+                    top_y = int(round(sum(cy) / len(cy)))
+                    top_x = (top_x + x) / 2
+                    top_y = (top_y + y) / 2
+
+                    return int(top_x), int(top_y)
                     # return x, y
                 i += 1
         except Exception, e:
@@ -64,8 +67,8 @@ def draw_main_cardinals(meter, contours, top_x, base_y, min_dist):
                 c = cnt.ravel()
                 cx = c[::2]
                 cy = c[1::2]
-                x = round(sum(cx) / len(cx))
-                y = round(sum(cy) / len(cy))
+                x = int(round(sum(cx) / len(cx)))
+                y = int(round(sum(cy) / len(cy)))
                 dist = math.sqrt((x - top_x) ** 2 + (y - base_y) ** 2)
                 # Todo: only compare distance of zero cardinal and five cardinal
                 if dist >= min_dist - 20:
@@ -89,19 +92,24 @@ def get_needle_angles(contours, top_x, base_y, pointer, base_line, min_dist):
     try:
         for cnt in contours:
             if 350 < cv2.contourArea(cnt) < 700:
-                (x, y), radius = cv2.minEnclosingCircle(cnt)
+                # (x, y), radius = cv2.minEnclosingCircle(cnt)
+                c = cnt.ravel()
+                cx = c[::2]
+                cy = c[1::2]
+                x = int(round(sum(cx) / len(cx)))
+                y = int(round(sum(cy) / len(cy)))
                 # TODO: Angle calculation between each contour
-                dist = round(math.sqrt((x - top_x) ** 2 + (y - base_y) ** 2), ndigits=4)
-                if min_dist - 20 < dist < min_dist + 20:
+                dist = round(math.sqrt((x - top_x) ** 2 + (y - base_y) ** 2), ndigits=2)
+                if min_dist - 20 <= dist < min_dist + 20:
                     cardinal = ((x, y), (top_x, base_y))
-                    cardinal_ang = round(Find_Angle.ang(cardinal, base_line), ndigits=4)
+                    cardinal_ang = round(Find_Angle.ang(cardinal, base_line), ndigits=2)
                     cardinal_angle.append(cardinal_ang)
                     base_and_pointer_angle = Find_Angle.ang(base_line, pointer)
                     needle_angle = Find_Angle.ang(cardinal, pointer)
-                    if base_and_pointer_angle > cardinal_ang:
-                        angle_list.append(round(needle_angle, ndigits=4))
+                    if base_and_pointer_angle >= cardinal_ang:
+                        angle_list.append(round(needle_angle, ndigits=2))
                     else:
-                        angle_list.append(round(-needle_angle, ndigits=4))
+                        angle_list.append(round(-needle_angle, ndigits=2))
                     contour_list[i] = cnt
                     i += 1
     except Exception, e:
@@ -115,7 +123,6 @@ def draw_intermediate_cardinals(meter, base_contour, top_x, top_y):
     try:
         (base_x, base_y) = base_contour
         # (top_x, top_y), radius = cv2.minEnclosingCircle(topcontour)
-
         cv2.line(meter, (int(base_x), int(base_y)), (int(top_x), int(base_y)), (0, 0, 255), 1)
         cv2.line(meter, (int(top_x), int(top_y)), (int(top_x), int(base_y)), (0, 0, 255), 1)
     except Exception, e:

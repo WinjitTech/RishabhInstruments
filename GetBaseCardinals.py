@@ -20,6 +20,7 @@ def zero_needle_position(img_path, iteration):
         #     needle_x, needle_y = corners.ravel()
         # return needle_x, needle_y
         cv2.rectangle(image, (0, 0), (100, 600), (166, 166, 166), -1)
+        # cv2.rectangle(image, (270, 0), (1000, 800), (166, 166, 166), -1)
         kernel = np.ones((5, 5), np.uint8)
         # kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (25, 25))
         dilation = cv2.dilate(image, kernel, iterations=iteration)

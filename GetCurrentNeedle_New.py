@@ -7,8 +7,9 @@ def get_needle_tip(img_path, iteration):
     try:
         # print "Iteration", iteration
         image = cv2.imread(img_path + "\\MeterImages\\Needle.jpg", 0)
-        cv2.rectangle(image, (0, 0), (255, 600), (166, 166, 166), -1)
-        cv2.rectangle(image, (0, 0), (500, 255), (166, 166, 166), -1)
+        color = int(image[270, 270])
+        cv2.rectangle(image, (0, 0), (255, 600), (color, color, color), -1)
+        cv2.rectangle(image, (0, 0), (500, 255), (color, color, color), -1)
         kernel = np.ones((5, 5), np.uint8)
         # kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (25, 25))
         dilation = cv2.dilate(image, kernel, iterations=iteration)
