@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 
-# TODO: Alternet method to detect needle
+# TODO: Alternate method to detect needle
 def get_needle_tip(img_path, top_x, base_y, iteration):
     try:
         image = cv2.imread(img_path + "\\MeterImages\\Needle.jpg", 0)
@@ -32,8 +32,5 @@ def get_needle_tip(img_path, top_x, base_y, iteration):
                 # print "Needle length: ",n_lenght
                 # cv2.imshow("Needle", dilation)
                 return x, y
-    except Exception, e:
-        # TODO: Call dilation again if Needle position in not found
-        # print "Dilation Exception", str(e)
-        # print "error"
+    except ValueError:
         return

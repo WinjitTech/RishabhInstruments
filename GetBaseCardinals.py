@@ -5,7 +5,7 @@ import numpy as np
 def zero_needle_position(img_path, iteration):
     try:
         # Todo: Read Image
-        image = cv2.imread(img_path+"\\MeterImages\\cardinals.jpg", 0)
+        image = cv2.imread(img_path+"\\MeterImages\\cardinal.jpg", 0)
         # # image = cv2.imread("MeterImages\cardinals.jpg", 0)
         # print ""
         # if image is None:
@@ -38,9 +38,9 @@ def zero_needle_position(img_path, iteration):
         cx /= len(corners)
         cy /= len(corners)
         # cv2.circle(dilation, (int(cx), int(cy)), 4, (0, 255, 0), -1)
-        # cv2.imshow("Initial_Needle", dilation)
-        return cx, cy
+        # cv2.imwrite("Initial_Needle.jpg", dilation)
+        return int(round(cx)), int(round(cy))
 
-    except Exception, e:
+    except ValueError:
         # print "Exception in Base Needle Detection Dilute Image:", str(e)
         return

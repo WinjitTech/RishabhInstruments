@@ -5,36 +5,40 @@ import time
 
 
 def start_capture():
-    if sys.argv:
-        cardinal_number = int(sys.argv[1])
-        img_name = str(cardinal_number) + "_" + str(sys.argv[2]) + ".jpg"
-        img_path = str(sys.argv[3])
-    elif str(sys.argv[1]) == '-h':
-        print "Capture_Image.py -cardinal_number <space> minimum_scale/full_scale"
-        exit()
-    else:
-        print "Incorrect call !\nType Capture_Image.py -h for help"
+    try:
+        if sys.argv:
+            cardinal_number = int(sys.argv[1])
+            img_name = str(cardinal_number) + "_" + str(sys.argv[2]) + ".jpg"
+            img_path = str(sys.argv[3])
+            mod_factor = float(sys.argv[4])
+
+            # cardinal_number = 1
+            # img_name = "1" + "_" + "FULL_Test" + ".jpg"
+            # img_path = "C:\\Users\\rohitsalunke\\PycharmProjects\\RishabhWebCam"
+            # mod_factor = 1.11
+            size = "meter" + str(sys.argv[5])
+            config = open(img_path + "\\frame.json", "r")
+            data = json.load(config)
+            x1 = data["x1"]
+            x2 = data["x2"]
+            y1 = data["y1"]
+            y2 = data["y2"]
+            config.close()
+    except ValueError:
         exit()
 
-    config = open(img_path + "\\frame.json", "r")
-    data = json.load(config)
-    x1 = data["x1"]
-    x2 = data["x2"]
-    y1 = data["y1"]
-    y2 = data["y2"]
-    config.close()
     cap = cv2.VideoCapture(0)
     ret, frame = cap.read()
     if not ret:
-        print "Check if Camera is Available"
+        print ("Check if Camera is Available")
         cap.release()
         cv2.destroyAllWindows()
     else:
         # while True:
-        for i in range(10):
+        for i in range(0, 10):
             try:
-                # Capture frame-by-frame
-                time.sleep(1)
+                # Todo: Capture frame-by-frame
+                ret, frame = cap.read()
                 ret, frame = cap.read()
                 if ret:
                     # Todo: Crop image in a rectangular fence
@@ -42,25 +46,23 @@ def start_capture():
                     # Todo: write mater image continuously to get current meter image
                     cv2.imwrite(img_path + "\\MeterImages\\Needle.jpg", meter)
                     try:
-                        meter, angles, deflection = initprocess(img_path, meter)
+                        meter, angles, deflection = initprocess(img_path, meter, mod_factor, size)
                         # print angles, deflection
                         cv2.imwrite(img_path + '\\MeterImages\\' + img_name, meter)
-                        print str(angles[cardinal_number - 1]) + "," + str(deflection[cardinal_number - 1])
+                        print (str(angles[cardinal_number - 1]) + "," + str(deflection[cardinal_number - 1]))
                         break
-                    except Exception, e:
-                        print "error:", str(e)
+                    except ValueError:
+                        print ("error")
                         cap.release()
                         cv2.destroyAllWindows()
                         break
                 else:
-                    print "Check if Camera is Available"
+                    print ("Check if Camera is Available")
                     cap.release()
                     cv2.destroyAllWindows()
                     break
-            except Exception, e:
-                print "error"
-                break
-
+            except ValueError:
+                print ("error")
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         # When everything done, release the camera
