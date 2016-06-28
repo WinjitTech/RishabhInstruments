@@ -8,12 +8,12 @@ import GetBaseCardinals
 
 # import Error_Logging
 
-# img_path = str(sys.argv[1])
-img_path = "C:\\Users\\rohitsalunke\\PycharmProjects\\RishabhWebCam"
+img_path = str(sys.argv[1])
+# img_path = "C:\\Users\\rohitsalunke\\PycharmProjects\\RishabhWebCam"
 test = open(img_path + "\\test.txt", "w")
 test.write("1")
-# size = "meter" + str(sys.argv[2])
-size = "meter48"
+size = "meter" + str(sys.argv[2])
+# size = "meter48"
 test.write("2")
 
 # print size
