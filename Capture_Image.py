@@ -7,17 +7,18 @@ import time
 def start_capture():
     try:
         if sys.argv:
-            cardinal_number = int(sys.argv[1])
-            img_name = str(cardinal_number) + "_" + str(sys.argv[2]) + ".jpg"
-            img_path = str(sys.argv[3])
-            mod_factor = float(sys.argv[4])
-
-            # cardinal_number = 1
-            # img_name = "1" + "_" + "FULL_Test" + ".jpg"
-            # img_path = "C:\\Users\\rohitsalunke\\PycharmProjects\\RishabhWebCam"
-            # mod_factor = 1.11
-            size = "meter" + str(sys.argv[5])
-            config = open(img_path + "\\frame.json", "r")
+            # cardinal_number = int(sys.argv[1])
+            # img_name = str(cardinal_number) + "_" + str(sys.argv[2]) + ".jpg"
+            # img_path = str(sys.argv[3])
+            # mod_factor = float(sys.argv[4])
+            # size = "meter" + str(sys.argv[5])
+            #
+            cardinal_number = 1
+            img_name = "1" + "_" + "FULL_Test" + ".jpg"
+            img_path = "C:\\Users\\rohitsalunke\\PycharmProjects\\RishabhInstruments_PahseI_Dev"
+            mod_factor = 1.11
+            size = "meter96"
+            config = open("frame.json", "r")
             data = json.load(config)
             x1 = data["x1"]
             x2 = data["x2"]
@@ -47,7 +48,6 @@ def start_capture():
                     cv2.imwrite(img_path + "\\MeterImages\\Needle.jpg", meter)
                     try:
                         meter, angles, deflection = initprocess(img_path, meter, mod_factor, size)
-                        # print angles, deflection
                         cv2.imwrite(img_path + '\\MeterImages\\' + img_name, meter)
                         print (str(angles[cardinal_number - 1]) + "," + str(deflection[cardinal_number - 1]))
                         break
@@ -65,7 +65,6 @@ def start_capture():
                 print ("error")
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-        # When everything done, release the camera
         cap.release()
         cv2.destroyAllWindows()
 
